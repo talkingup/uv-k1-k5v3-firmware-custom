@@ -918,6 +918,8 @@ void MENU_AcceptSetting(void)
 #ifndef ENABLE_FEAT_F4HWN
         case MENU_SCREN:
             gSetting_ScrambleEnable = gSubMenuSelection;
+            gMenuListCount = UI_MENU_GetMenuCount();
+            gMenuCursor = UI_MENU_GetMenuIdx(MENU_SCREN);
             gFlagReconfigureVfos    = true;
             break;
 #endif
@@ -1921,7 +1923,7 @@ static void MENU_Key_MENU(const bool bKeyPressed, const bool bKeyHeld)
 
         #ifdef ENABLE_VOICE
             if (m != MENU_SCR)
-                gAnotherVoiceID = MenuList[gMenuIndices[gMenuCursor]].voice_id;
+                gAnotherVoiceID = UI_MENU_GetMenuItem(gMenuCursor)->voice_id;
         #endif
         if (m == MENU_UPCODE 
             || m == MENU_DWCODE 
