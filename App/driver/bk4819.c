@@ -893,7 +893,23 @@ void BK4819_EnableScramble(uint8_t Type)
     const uint16_t Value = BK4819_ReadRegister(BK4819_REG_31);
     BK4819_WriteRegister(BK4819_REG_31, Value | (1u << 1));
 
-    BK4819_WriteRegister(BK4819_REG_71, 0x68DC + (Type * 1032));   // 0110 1000 1101 1100
+        uint16_t ControlWord;
+
+    if (Type == 2u)
+    {
+        ControlWord = 0x6EE8u;
+    }
+    else
+    {
+        uint16_t LinearType = Type;
+
+        if (LinearType > 2u)
+            LinearType--;
+
+        ControlWord = (uint16_t)(0x68DCu + (LinearType * 1032u));
+    }
+
+    BK4819_WriteRegister(BK4819_REG_71, ControlWord);
 }
 
 bool BK4819_CompanderEnabled(void)
